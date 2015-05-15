@@ -1,6 +1,5 @@
 package com.starnamu.projcet.airlineschedule.test;
 
-import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
@@ -26,18 +25,43 @@ public class AirlineParser implements CommonConventions {
 
     ArrayList<AirlineItem> itemLists;
     String AirlineRequest;
-
     Handler handler;
-    Context mContext;
 
-    public AirlineParser(String Url, Context context) {
-        this.mContext = context;
+
+    public AirlineParser(String Url) {
         this.AirlineRequest = Url;
         handler = new Handler();
-        onParseThread();
+//        onParseThread();
+
+        ParserThread thread = new ParserThread();
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void onParseThread() {
+    class ParserThread extends Thread {
+        int i = 0;
+
+        public void run() {
+            String Url = URLHADE + AirlineRequest + SERVICEKEY;
+            try {
+                URL url = new URL(Url);
+                InputStream inStream = url.openStream();
+                i++;
+                Log.i("몇번 실행", Integer.toString(i));
+                airportparser(inStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    /*public void onParseThread() {
         Thread thread = new Thread(new Runnable() {
             int i = 0;
 
@@ -60,15 +84,7 @@ public class AirlineParser implements CommonConventions {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public void reFresh() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-            }
-        });
-    }
+    }*/
 
     public ArrayList<AirlineItem> getArrayList() {
         return itemLists;

@@ -38,7 +38,7 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
         airLineAdapter = new AirLineAdapter(context);
         ArrivalAirlineListView = (ListView) v.findViewById(R.id.ArrivalAirlineListView);
         ArrivalAirlineListView.setAdapter(airLineAdapter);
-        airlineParser = new AirlineParser(PARRIVALS,mContext);
+        airlineParser = new AirlineParser(PARRIVALS);
 
         return v;
     }
