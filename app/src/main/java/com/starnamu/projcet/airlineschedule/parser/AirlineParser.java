@@ -28,6 +28,7 @@ public class AirlineParser implements CommonConventions {
     String ArrivalAirlineRequest;
     Handler handler;
     String Url;
+    String ADstate;
 
 
     public AirlineParser(String UrlD, String UrlA) {
@@ -49,14 +50,14 @@ public class AirlineParser implements CommonConventions {
 
         public void run() {
             Url = URLHADE + DepartureAirlineRequest + SERVICEKEY;
-            DAurl(Url);
+            DAurl(Url, "D");
 
             Url = URLHADE + ArrivalAirlineRequest + SERVICEKEY;
-            DAurl(Url);
+            DAurl(Url, "A");
         }
 
-        private void DAurl(String Url) {
-
+        private void DAurl(String Url, String state) {
+            ADstate = state;
             try {
                 URL url = new URL(Url);
                 InputStream inStream = url.openStream();
@@ -87,7 +88,7 @@ public class AirlineParser implements CommonConventions {
         NodeList nodeList = element.getElementsByTagName("item");
 
         if (nodeList != null) {
-            for (int i = 0; i < nodeList.getLength(); i++) {
+            for (int i = 1; i < nodeList.getLength(); i++) {
                 if (parseItemNode(nodeList, i) != null) {
                     AirlineItem item = parseItemNode(nodeList, i);
                     TempList.add(item);
@@ -99,7 +100,7 @@ public class AirlineParser implements CommonConventions {
 
     private AirlineItem parseItemNode(NodeList nodeList, int index) {
         Element elem = (Element) nodeList.item(index);
-        for (int i = 0; i < PARSERITEMGROUP.length; i++) {
+        for (int i = 1; i < PARSERITEMGROUP.length; i++) {
             element[i] = (Element) elem.getElementsByTagName(PARSERITEMGROUP[i]).item(0);
             if (element[i] == null) {
                 itemStr[i] = " ";
@@ -110,6 +111,12 @@ public class AirlineParser implements CommonConventions {
                 }
             }
         }
+      /*  if (true) {
+            itemStr[0] = "A";
+        } else if (false) {
+            itemStr[0] = "D";
+        }
+*/
         AirlineItem item = new AirlineItem(itemStr);
         return item;
     }

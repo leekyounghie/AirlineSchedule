@@ -42,7 +42,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         setContentView(R.layout.activity_main);
 
         items = Intro_Activity.items;
-        startMetrialView();
         try {
             stateUrlConnation();
         } catch (InterruptedException e) {
