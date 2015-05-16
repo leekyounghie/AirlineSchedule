@@ -1,4 +1,4 @@
-package com.starnamu.projcet.airlineschedule.test;
+package com.starnamu.projcet.airlineschedule.parser;
 
 import android.content.Context;
 import android.view.View;

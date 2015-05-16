@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.starnamu.projcet.airlineschedule.fragment.ArrivalAirlineFragment;
 import com.starnamu.projcet.airlineschedule.fragment.DepartureAirLineFragment;
+import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
+
+import java.util.ArrayList;
 
 
 /**
@@ -16,14 +19,17 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    ArrayList<AirlineItem> items;
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb) {
+    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[],
+                            int mNumbOfTabsumb, ArrayList<AirlineItem> items) {
         super(fm);
 
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
+        this.items = items;
 
     }
 
@@ -33,11 +39,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment();
+            ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment(items);
             return arrivalAirlineFragment;
         } else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment();
+            DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment(items);
             return departureAirLineFragment;
         }
 

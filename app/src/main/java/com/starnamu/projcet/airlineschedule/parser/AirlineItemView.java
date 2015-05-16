@@ -1,4 +1,4 @@
-package com.starnamu.projcet.airlineschedule.test;
+package com.starnamu.projcet.airlineschedule.parser;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -41,26 +41,26 @@ public class AirlineItemView extends LinearLayout {
     public void setAirlineItem(AirlineItem items) {
 
 
-        AirlineItem Ditem = items;
+        AirlineItem DAitem = items;
 
-        String flightId = Ditem.getStriItem(3);
+        String flightId = DAitem.getStriItem(3);
         textView02.setText(flightId);
 
 
-        String scheduleDateTime = Ditem.getStriItem(4);
+        String scheduleDateTime = DAitem.getStriItem(4);
         textView03.setText(scheduleDateTime);
 
-        String estimatedDateTime = Ditem.getStriItem(5);
+        String estimatedDateTime = DAitem.getStriItem(5);
         textView04.setText(estimatedDateTime);
 
-        String gatenumber = Ditem.getStriItem(7);
+        String gatenumber = DAitem.getStriItem(7);
         textView05.setText(gatenumber);
 
-        String remark = Ditem.getStriItem(9);
+        String remark = DAitem.getStriItem(9);
         textView06.setText(remark);
 
 
-        String carousel = Ditem.getStriItem(8);
+        String carousel = DAitem.getStriItem(8);
         textView07.setText(carousel);
 
 

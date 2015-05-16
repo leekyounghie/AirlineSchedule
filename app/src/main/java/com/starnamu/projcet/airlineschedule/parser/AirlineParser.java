@@ -1,4 +1,4 @@
-package com.starnamu.projcet.airlineschedule.test;
+package com.starnamu.projcet.airlineschedule.parser;
 
 import android.os.Handler;
 import android.util.Log;
@@ -22,17 +22,19 @@ public class AirlineParser implements CommonConventions {
 
     Element[] element = new Element[PARSERITEMGROUP.length];
     String[] itemStr = new String[PARSERITEMGROUP.length];
-
+    ArrayList<AirlineItem> TempList;
     ArrayList<AirlineItem> itemLists;
-    String AirlineRequest;
+    String DepartureAirlineRequest;
+    String ArrivalAirlineRequest;
     Handler handler;
+    String Url;
 
 
-    public AirlineParser(String Url) {
-        this.AirlineRequest = Url;
+    public AirlineParser(String UrlD, String UrlA) {
+        this.DepartureAirlineRequest = UrlD;
+        this.ArrivalAirlineRequest = UrlA;
         handler = new Handler();
-//        onParseThread();
-
+        TempList = new ArrayList<>();
         ParserThread thread = new ParserThread();
         thread.start();
         try {
@@ -46,7 +48,15 @@ public class AirlineParser implements CommonConventions {
         int i = 0;
 
         public void run() {
-            String Url = URLHADE + AirlineRequest + SERVICEKEY;
+            Url = URLHADE + DepartureAirlineRequest + SERVICEKEY;
+            DAurl(Url);
+
+            Url = URLHADE + ArrivalAirlineRequest + SERVICEKEY;
+            DAurl(Url);
+        }
+
+        private void DAurl(String Url) {
+
             try {
                 URL url = new URL(Url);
                 InputStream inStream = url.openStream();
@@ -58,33 +68,6 @@ public class AirlineParser implements CommonConventions {
             }
         }
     }
-
-
-
-    /*public void onParseThread() {
-        Thread thread = new Thread(new Runnable() {
-            int i = 0;
-
-            public void run() {
-                String Url = URLHADE + AirlineRequest + SERVICEKEY;
-                try {
-                    URL url = new URL(Url);
-                    InputStream inStream = url.openStream();
-                    i++;
-                    Log.i("몇번 실행", Integer.toString(i));
-                    airportparser(inStream);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public ArrayList<AirlineItem> getArrayList() {
         return itemLists;
@@ -103,24 +86,24 @@ public class AirlineParser implements CommonConventions {
         element.getElementsByTagName("item");
         NodeList nodeList = element.getElementsByTagName("item");
 
-        ArrayList<AirlineItem> itemList = new ArrayList<>();
         if (nodeList != null) {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 if (parseItemNode(nodeList, i) != null) {
                     AirlineItem item = parseItemNode(nodeList, i);
-                    itemList.add(item);
+                    TempList.add(item);
                 }
             }
         }
-        return itemList;
+        return TempList;
     }
 
     private AirlineItem parseItemNode(NodeList nodeList, int index) {
         Element elem = (Element) nodeList.item(index);
         for (int i = 0; i < PARSERITEMGROUP.length; i++) {
             element[i] = (Element) elem.getElementsByTagName(PARSERITEMGROUP[i]).item(0);
-
-            if (element[i] != null) {
+            if (element[i] == null) {
+                itemStr[i] = " ";
+            } else if (element[i] != null) {
                 Node firstchild = element[i].getFirstChild();
                 if (firstchild != null) {
                     itemStr[i] = firstchild.getNodeValue();

@@ -11,9 +11,8 @@ import android.widget.ListView;
 
 import com.starnamu.projcet.airlineschedule.R;
 import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
-import com.starnamu.projcet.airlineschedule.test.AirLineAdapter;
-import com.starnamu.projcet.airlineschedule.test.AirlineItem;
-import com.starnamu.projcet.airlineschedule.test.AirlineParser;
+import com.starnamu.projcet.airlineschedule.parser.AirLineAdapter;
+import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 
 import java.util.ArrayList;
 
@@ -25,20 +24,23 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
 
     ListView ArrivalAirlineListView;
     AirLineAdapter airLineAdapter;
-    AirlineParser airlineParser;
-    ArrayList<AirlineItem> airlineItems;
-    ArrayList<AirlineItem> Items = new ArrayList<>();
-    Context mContext = getActivity();
+    ArrayList<AirlineItem> Temitems;
+    ArrayList<AirlineItem> items;
+
+    public ArrivalAirlineFragment(ArrayList<AirlineItem> items) {
+        this.items = items;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.arrivalairlinefragment, container, false);
 
         Context context = getActivity();
+        Temitems = new ArrayList<>();
         airLineAdapter = new AirLineAdapter(context);
         ArrivalAirlineListView = (ListView) v.findViewById(R.id.ArrivalAirlineListView);
         ArrivalAirlineListView.setAdapter(airLineAdapter);
-        airlineParser = new AirlineParser(PARRIVALS);
+
 
         return v;
     }
@@ -46,16 +48,14 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
     @Override
     public void onStart() {
         super.onStart();
-
-        airlineItems = airlineParser.getArrayList();
-        for (int i = 0; i < airlineItems.size(); i++) {
-            AirlineItem item = airlineItems.get(i);
+        for (int i = 0; i < items.size(); i++) {
+            AirlineItem item = items.get(i);
             if (airlineCheck(item.getStriItem(0))) {
                 if (flightCheck(item.getStriItem(3))) {
-                    Items.add(item);
+                    Temitems.add(item);
                 }
             }
-            airLineAdapter.setItemList(Items);
+            airLineAdapter.setItemList(Temitems);
             airLineAdapter.notifyDataSetChanged();
         }
     }
@@ -73,7 +73,6 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
     }
 
     private boolean flightCheck(String flight) {
-
         if (flight.length() <= 5) {
             return true;
         }

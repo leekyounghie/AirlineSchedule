@@ -7,14 +7,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
+import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
+
+import java.util.ArrayList;
 
 
 /**
  * Created by Edwin on 15/02/2015.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements CommonConventions {
 
     // Declaring Your View and Variables
 
@@ -28,13 +34,50 @@ public class MainActivity extends ActionBarActivity {
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
 
+    ArrayList<AirlineItem> items;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        items = Intro_Activity.items;
+        startMetrialView();
+        try {
+            stateUrlConnation();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void stateUrlConnation() throws InterruptedException {
+        boolean state = true;
+
+        while (state) {
+            if (items == null) {
+                Log.i("intent로 넘어온 Arraylist", "True");
+                state = true;
+            }
+            if (items != null) {
+                startMetrialView();
+                state = false;
+                Thread.sleep(1000);
+                Log.i("intent로 넘어온 Arraylist", "False");
+            }
+        }
+    }
+
+    private void startMetrialView() {
         // Creating The Toolbar and setting it as the Toolbar for the activity
+
+       /*검사용
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < PARSERITEMGROUP.length; j++) {
+                String str = items.get(i).getStriItem(j);
+
+                Log.i("intent로 넘어온 Arraylist", str);
+            }
+        }*/
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -44,9 +87,8 @@ public class MainActivity extends ActionBarActivity {
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.app_name);
         dlDrawer.setDrawerListener(dtToggle);
 
-
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, items);
 //        pager.notifyAll();
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -66,9 +108,15 @@ public class MainActivity extends ActionBarActivity {
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        /**프로세스 완전 종료 방법*/
+        finish();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,7 +142,6 @@ public class MainActivity extends ActionBarActivity {
         if (dtToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
