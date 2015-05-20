@@ -3,6 +3,10 @@ package com.starnamu.projcet.airlineschedule.parser;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +19,27 @@ public class AirlineItemView extends LinearLayout {
 
     TextView textView02, textView03, textView04, textView05, textView06, textView07;
 
+    /**
+     * 페이지가 열려 있는지 알기 위한 플래그
+     */
+    boolean isPageOpen = false;
+
+    /**
+     * 애니메이션 객체
+     */
+    Animation translateLeftAnim;
+    Animation translateRightAnim;
+
+    /**
+     * 슬라이딩으로 보여지는 페이지 레이아웃
+     */
+    Button slidingBtn;
+
+    /**
+     * 버튼
+     */
+    Button button1;
+
     public AirlineItemView(Context context) {
         super(context);
         init(context);
@@ -25,7 +50,7 @@ public class AirlineItemView extends LinearLayout {
         init(context);
     }
 
-    public void init(Context context) {
+    private void init(Context context) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.listviewitem, this, true);
@@ -36,16 +61,40 @@ public class AirlineItemView extends LinearLayout {
         textView05 = (TextView) findViewById(R.id.textView05);
         textView06 = (TextView) findViewById(R.id.textView06);
         textView07 = (TextView) findViewById(R.id.textView07);
+
+
+        // 슬라이딩으로 보여질 Button 객체 참조
+        slidingBtn = (Button) findViewById(R.id.slidingBtn);
+        slidingBtn.setVisibility(View.INVISIBLE);
+
+        // 애니메이션 객체 로딩
+        translateLeftAnim = AnimationUtils.loadAnimation(context, R.anim.translate_left);
+        translateRightAnim = AnimationUtils.loadAnimation(context, R.anim.translate_right);
+
+        this.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                slidingBtn.setVisibility(View.VISIBLE);
+                slidingBtn.startAnimation(translateLeftAnim);
+                return false;
+            }
+        });
+
+        slidingBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slidingBtn.startAnimation(translateRightAnim);
+                slidingBtn.setVisibility(GONE);
+            }
+        });
     }
 
     public void setAirlineItem(AirlineItem items) {
-
 
         AirlineItem DAitem = items;
 
         String flightId = DAitem.getStriItem(3);
         textView02.setText(flightId);
-
 
         String scheduleDateTime = DAitem.getStriItem(4);
         textView03.setText(scheduleDateTime);
@@ -59,11 +108,8 @@ public class AirlineItemView extends LinearLayout {
         String remark = DAitem.getStriItem(9);
         textView06.setText(remark);
 
-
         String carousel = DAitem.getStriItem(8);
         textView07.setText(carousel);
-
-
     }
 }
 

@@ -1,4 +1,4 @@
-package com.starnamu.projcet.airlineschedule.parser;
+package com.starnamu.projcet.airlineschedule.test;
 
 import android.os.Handler;
 import android.util.Log;
@@ -22,20 +22,17 @@ public class AirlineParser implements CommonConventions {
 
     Element[] element = new Element[PARSERITEMGROUP.length];
     String[] itemStr = new String[PARSERITEMGROUP.length];
-    ArrayList<AirlineItem> TempList;
+
     ArrayList<AirlineItem> itemLists;
-    String DepartureAirlineRequest;
-    String ArrivalAirlineRequest;
+    String AirlineRequest;
     Handler handler;
-    String Url;
-    String ADstate;
 
-    public AirlineParser(String UrlD, String UrlA) {
-        this.DepartureAirlineRequest = UrlD;
-        this.ArrivalAirlineRequest = UrlA;
 
+    public AirlineParser(String Url) {
+        this.AirlineRequest = Url;
         handler = new Handler();
-        TempList = new ArrayList<>();
+//        onParseThread();
+
         ParserThread thread = new ParserThread();
         thread.start();
         try {
@@ -48,23 +45,13 @@ public class AirlineParser implements CommonConventions {
     class ParserThread extends Thread {
         int i = 0;
 
-        /*Thread로 URL 연결*/
         public void run() {
-            Url = URLHADE + DepartureAirlineRequest + SERVICEKEY;
-            DAurl(Url, "D");
-
-            Url = URLHADE + ArrivalAirlineRequest + SERVICEKEY;
-            DAurl(Url, "A");
-        }
-
-        /*URL 연결 Method*/
-        private void DAurl(String Url, String state) {
-            ADstate = state;
+            String Url = URLHADE + AirlineRequest + SERVICEKEY;
             try {
                 URL url = new URL(Url);
                 InputStream inStream = url.openStream();
                 i++;
-                Log.i("URL호출 횟수 : ", Integer.toString(i));
+                Log.i("몇번 실행", Integer.toString(i));
                 airportparser(inStream);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -72,12 +59,38 @@ public class AirlineParser implements CommonConventions {
         }
     }
 
-    /*외부로 부터이 요청에 ArrayList 반환 */
+
+
+    /*public void onParseThread() {
+        Thread thread = new Thread(new Runnable() {
+            int i = 0;
+
+            public void run() {
+                String Url = URLHADE + AirlineRequest + SERVICEKEY;
+                try {
+                    URL url = new URL(Url);
+                    InputStream inStream = url.openStream();
+                    i++;
+                    Log.i("몇번 실행", Integer.toString(i));
+                    airportparser(inStream);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }*/
+
     public ArrayList<AirlineItem> getArrayList() {
         return itemLists;
     }
 
-    private void airportparser(InputStream inStream) throws Exception {
+    public void airportparser(InputStream inStream) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
 
@@ -85,45 +98,35 @@ public class AirlineParser implements CommonConventions {
         itemLists = parserDocument(document);
     }
 
-    private ArrayList<AirlineItem> parserDocument(Document document) {
+    public ArrayList<AirlineItem> parserDocument(Document document) {
         Element element = document.getDocumentElement();
         element.getElementsByTagName("item");
         NodeList nodeList = element.getElementsByTagName("item");
 
+        ArrayList<AirlineItem> itemList = new ArrayList<>();
         if (nodeList != null) {
             for (int i = 0; i < nodeList.getLength(); i++) {
                 if (parseItemNode(nodeList, i) != null) {
                     AirlineItem item = parseItemNode(nodeList, i);
-                    TempList.add(item);
+                    itemList.add(item);
                 }
             }
         }
-
-        return TempList;
+        return itemList;
     }
 
     private AirlineItem parseItemNode(NodeList nodeList, int index) {
         Element elem = (Element) nodeList.item(index);
         for (int i = 0; i < PARSERITEMGROUP.length; i++) {
             element[i] = (Element) elem.getElementsByTagName(PARSERITEMGROUP[i]).item(0);
-            if (element[i] == null) {
-                itemStr[i] = " ";
-            } else if (element[i] != null) {
+
+            if (element[i] != null) {
                 Node firstchild = element[i].getFirstChild();
                 if (firstchild != null) {
                     itemStr[i] = firstchild.getNodeValue();
                 }
             }
         }
-
-        if (ADstate.equals("A")) {
-            itemStr[10] = "A";
-        } else if (ADstate.equals("D")) {
-            itemStr[10] = "D";
-        } else {
-            itemStr[10] = "";
-        }
-
         AirlineItem item = new AirlineItem(itemStr);
         return item;
     }

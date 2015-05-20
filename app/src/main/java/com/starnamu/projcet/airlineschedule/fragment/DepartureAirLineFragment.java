@@ -1,6 +1,5 @@
 package com.starnamu.projcet.airlineschedule.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.starnamu.projcet.airlineschedule.R;
-import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.parser.AirLineAdapter;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 
@@ -19,17 +17,13 @@ import java.util.ArrayList;
 /**
  * Created by Edwin on 15/02/2015.
  */
-public class DepartureAirLineFragment extends Fragment implements CommonConventions {
+public class DepartureAirLineFragment extends Fragment {
 
 
     ListView DepartureAirlineListView;
     AirLineAdapter airlineAdapter;
     ArrayList<AirlineItem> Temitems;
     ArrayList<AirlineItem> items;
-
-    public DepartureAirLineFragment(ArrayList<AirlineItem> items) {
-        this.items = items;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,10 +34,11 @@ public class DepartureAirLineFragment extends Fragment implements CommonConventi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.departureairlinefragment, container, false);
 
-        Context context = getActivity();
+        Bundle bundle = getArguments();
+        items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
         Temitems = new ArrayList<>();
         DepartureAirlineListView = (ListView) v.findViewById(R.id.DepartureAirlineListView);
-        airlineAdapter = new AirLineAdapter(context);
+        airlineAdapter = new AirLineAdapter(getActivity());
         DepartureAirlineListView.setAdapter(airlineAdapter);
 
         return v;

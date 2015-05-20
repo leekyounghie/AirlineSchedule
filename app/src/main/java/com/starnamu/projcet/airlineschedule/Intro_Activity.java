@@ -23,6 +23,7 @@ public class Intro_Activity extends ActionBarActivity implements CommonConventio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+        items = null;
 
         // 핸들러를 실질적으로 정의하고, 핸들러를 시작하는 지연시간을 설정한다.
         handler_intro = new Handler();

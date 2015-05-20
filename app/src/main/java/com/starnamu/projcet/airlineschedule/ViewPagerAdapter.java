@@ -1,6 +1,7 @@
 package com.starnamu.projcet.airlineschedule;
 
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -23,8 +24,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[],
-                            int mNumbOfTabsumb, ArrayList<AirlineItem> items) {
+    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[], int mNumbOfTabsumb, ArrayList<AirlineItem> items) {
         super(fm);
 
         this.Titles = mTitles;
@@ -37,13 +37,18 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("items", items);
+
         if (position == 0) // if the position is 0 we are returning the First tab
         {
-            ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment(items);
+            ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment();
+            arrivalAirlineFragment.setArguments(bundle);
             return arrivalAirlineFragment;
         } else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
-            DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment(items);
+            DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment();
+            departureAirLineFragment.setArguments(bundle);
             return departureAirLineFragment;
         }
 

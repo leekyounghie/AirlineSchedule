@@ -54,14 +54,14 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
 
         while (state) {
             if (items == null) {
-                Log.i("intent로 넘어온 Arraylist", "True");
+                Log.i("from Intro_Activity", "Null");
                 state = true;
             }
             if (items != null) {
                 startMetrialView();
                 state = false;
                 Thread.sleep(1000);
-                Log.i("intent로 넘어온 Arraylist", "False");
+                Log.i("from Intro_Activity", "Not Null");
             }
         }
     }
@@ -69,14 +69,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     private void startMetrialView() {
         // Creating The Toolbar and setting it as the Toolbar for the activity
 
-       /*검사용
-        for (int i = 0; i < items.size(); i++) {
-            for (int j = 0; j < PARSERITEMGROUP.length; j++) {
-                String str = items.get(i).getStriItem(j);
-
-                Log.i("intent로 넘어온 Arraylist", str);
-            }
-        }*/
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -88,7 +80,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, items);
-//        pager.notifyAll();
+
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
@@ -144,3 +136,12 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         return super.onOptionsItemSelected(item);
     }
 }
+
+  /*검사용
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < PARSERITEMGROUP.length; j++) {
+                String str = items.get(i).getStriItem(j);
+
+                Log.i("intent로 넘어온 Arraylist", str);
+            }
+        }*/
