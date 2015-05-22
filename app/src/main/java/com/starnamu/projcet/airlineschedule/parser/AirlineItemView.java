@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.starnamu.projcet.airlineschedule.R;
@@ -15,7 +15,7 @@ import com.starnamu.projcet.airlineschedule.R;
 /**
  * Created by starnamu on 2015-05-08.
  */
-public class AirlineItemView extends LinearLayout {
+public class AirlineItemView extends FrameLayout {
 
     TextView textView02, textView03, textView04, textView05, textView06, textView07;
 
@@ -34,11 +34,6 @@ public class AirlineItemView extends LinearLayout {
      * 슬라이딩으로 보여지는 페이지 레이아웃
      */
     Button slidingBtn;
-
-    /**
-     * 버튼
-     */
-    Button button1;
 
     public AirlineItemView(Context context) {
         super(context);
@@ -110,6 +105,8 @@ public class AirlineItemView extends LinearLayout {
 
         String carousel = DAitem.getStriItem(8);
         textView07.setText(carousel);
+
+
     }
 }
 

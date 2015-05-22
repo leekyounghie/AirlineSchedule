@@ -50,12 +50,13 @@ public class DepartureAirLineFragment extends Fragment {
 
         for (int i = 0; i < items.size(); i++) {
             AirlineItem item = items.get(i);
-            if (airlineCheck(item.getStriItem(0))) {
-                if (flightCheck(item.getStriItem(3))) {
-                    Temitems.add(item);
+            if (adCheck(item.getStriItem(10))) {
+                if (airlineCheck(item.getStriItem(0))) {
+                    if (flightCheck(item.getStriItem(3))) {
+                        Temitems.add(item);
+                    }
                 }
             }
-
             airlineAdapter.setItemList(Temitems);
             airlineAdapter.notifyDataSetChanged();
         }
@@ -64,6 +65,13 @@ public class DepartureAirLineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    private boolean adCheck(String airline) {
+        if (airline.equals("D")) {
+            return true;
+        }
+        return false;
     }
 
     private boolean airlineCheck(String airline) {

@@ -10,9 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
+import com.starnamu.projcet.airlineschedule.parser.AirlineParser;
 
 import java.util.ArrayList;
 
@@ -107,6 +109,11 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         /**프로세스 완전 종료 방법*/
         finish();
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    public void onClickReflash(View view) {
+        AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
+        items = parser.getArrayList();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.starnamu.projcet.airlineschedule.parser;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,6 +48,11 @@ public class AirLineAdapter extends BaseAdapter {
             view = new AirlineItemView(mContext);
         } else {
             view = (AirlineItemView) convertView;
+        }
+        if (position % 2 == 0) {
+            view.setBackgroundColor(Color.argb(255, 250, 255, 255));
+        } else {
+            view.setBackgroundColor(Color.argb(255, 240, 255, 255));
         }
         view.setAirlineItem(ItemList.get(position));
         return view;
