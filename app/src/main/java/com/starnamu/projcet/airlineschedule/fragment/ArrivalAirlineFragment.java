@@ -38,7 +38,6 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
         return v;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -64,6 +63,7 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
     public void onResume() {
         super.onResume();
     }
+
 
     /*Arraylist의 지료를 원하는 형태로 걸러낸다.*/
     private boolean adCheck(String airline) {
