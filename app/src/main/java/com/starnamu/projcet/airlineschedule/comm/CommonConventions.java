@@ -13,7 +13,7 @@ public interface CommonConventions {
 
     String[] AIRLINENAME = {"아시아나항공", "중국동방항공", "사천항공"};
 
-    String[]    PARSERITEMGROUP = {"airline", "airport", "airportCode", "flightId", "scheduleDateTime",
+    String[] PARSERITEMGROUP = {"airline", "airport", "airportCode", "flightId", "scheduleDateTime",
             "estimatedDateTime", "chkinrange", "gatenumber", "remark", "carousel", "ADStat"};
 
     String[] ARRIVALPARSERITEMGROUP = {"airline", "airport", "airportCode", "flightId", "scheduleDateTime",

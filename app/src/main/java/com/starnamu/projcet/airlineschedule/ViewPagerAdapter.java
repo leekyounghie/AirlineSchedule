@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import com.starnamu.projcet.airlineschedule.fragment.ArrivalAirlineFragment;
 import com.starnamu.projcet.airlineschedule.fragment.DepartureAirLineFragment;
@@ -61,10 +62,18 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         return Titles[position];
     }
 
-    // This method return the Number of tabs for the tabs Strip
-
     @Override
     public int getCount() {
         return NumbOfTabs;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        return super.instantiateItem(container, position);
+    }
+
+    @Override
+    public int getItemPosition(Object item) {
+        return POSITION_NONE;
     }
 }

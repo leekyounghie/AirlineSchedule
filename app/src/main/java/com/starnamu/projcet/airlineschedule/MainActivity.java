@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.starnamu.projcet.airlineschedule.choiceoption.ChoiceOptionFragment;
 import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 import com.starnamu.projcet.airlineschedule.parser.AirlineParser;
@@ -22,7 +22,8 @@ import java.util.ArrayList;
 /**
  * Created by Edwin on 15/02/2015.
  */
-public class MainActivity extends ActionBarActivity implements CommonConventions {
+public class MainActivity extends ActionBarActivity implements CommonConventions,
+        ChoiceOptionFragment.CustomOnClickListener, ChoiceOptionFragment.CustonListOnClickListener {
 
     // Declaring Your View and Variables
 
@@ -32,7 +33,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     SlidingTabLayout tabs;
     CharSequence Titles[] = {"도착편", "출발편"};
     int Numboftabs = 2;
-
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
 
@@ -111,10 +111,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    public void onClickReflash(View view) {
-        AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
-        items = parser.getArrayList();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,13 +138,18 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    public void onClicked() {
+        AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
+        items = parser.getArrayList();
+    }
+
+    @Override
+    public void onListClicked(int choicetime) {
+//        AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
+//        items = parser.getArrayList();
+        adapter.notifyDataSetChanged();
+    }
 }
-
-  /*검사용
-        for (int i = 0; i < items.size(); i++) {
-            for (int j = 0; j < PARSERITEMGROUP.length; j++) {
-                String str = items.get(i).getStriItem(j);
-
-                Log.i("intent로 넘어온 Arraylist", str);
-            }
-        }*/

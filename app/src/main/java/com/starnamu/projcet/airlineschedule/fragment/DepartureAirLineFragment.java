@@ -25,28 +25,15 @@ public class DepartureAirLineFragment extends Fragment {
     ArrayList<AirlineItem> Temitems;
     ArrayList<AirlineItem> items;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.departureairlinefragment, container, false);
+        Temitems = new ArrayList<>();
+        airlineAdapter = new AirLineAdapter(getActivity());
 
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
-        Temitems = new ArrayList<>();
-        DepartureAirlineListView = (ListView) v.findViewById(R.id.DepartureAirlineListView);
-        airlineAdapter = new AirLineAdapter(getActivity());
-        DepartureAirlineListView.setAdapter(airlineAdapter);
-
-        return v;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
 
         for (int i = 0; i < items.size(); i++) {
             AirlineItem item = items.get(i);
@@ -58,8 +45,22 @@ public class DepartureAirLineFragment extends Fragment {
                 }
             }
             airlineAdapter.setItemList(Temitems);
-            airlineAdapter.notifyDataSetChanged();
+//            airlineAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.departureairlinefragment, container, false);
+
+        DepartureAirlineListView = (ListView) v.findViewById(R.id.DepartureAirlineListView);
+        DepartureAirlineListView.setAdapter(airlineAdapter);
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override

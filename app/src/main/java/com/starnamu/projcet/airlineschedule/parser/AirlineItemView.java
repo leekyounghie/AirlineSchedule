@@ -84,6 +84,13 @@ public class AirlineItemView extends FrameLayout {
         });
     }
 
+    private String stringFormConversion(String str) {
+        String Hour = str.substring(0, 2);
+        String Minute = str.substring(2, 4);
+        String timeChange = String.format("%s  :  %s", Hour, Minute);
+        return timeChange;
+    }
+
     public void setAirlineItem(AirlineItem items) {
 
         AirlineItem DAitem = items;
@@ -92,10 +99,10 @@ public class AirlineItemView extends FrameLayout {
         textView02.setText(flightId);
 
         String scheduleDateTime = DAitem.getStriItem(4);
-        textView03.setText(scheduleDateTime);
+        textView03.setText(stringFormConversion(scheduleDateTime));
 
         String estimatedDateTime = DAitem.getStriItem(5);
-        textView04.setText(estimatedDateTime);
+        textView04.setText(stringFormConversion(estimatedDateTime));
 
         String gatenumber = DAitem.getStriItem(7);
         textView05.setText(gatenumber);
@@ -105,8 +112,6 @@ public class AirlineItemView extends FrameLayout {
 
         String carousel = DAitem.getStriItem(8);
         textView07.setText(carousel);
-
-
     }
 }
 
