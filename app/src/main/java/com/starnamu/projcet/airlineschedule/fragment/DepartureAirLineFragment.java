@@ -19,12 +19,11 @@ import java.util.ArrayList;
  */
 public class DepartureAirLineFragment extends Fragment {
 
-
     ListView DepartureAirlineListView;
     AirLineAdapter airlineAdapter;
     ArrayList<AirlineItem> Temitems;
     ArrayList<AirlineItem> items;
-
+    int number = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,14 +44,13 @@ public class DepartureAirLineFragment extends Fragment {
                 }
             }
             airlineAdapter.setItemList(Temitems);
-//            airlineAdapter.notifyDataSetChanged();
+            airlineAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.departureairlinefragment, container, false);
-
         DepartureAirlineListView = (ListView) v.findViewById(R.id.DepartureAirlineListView);
         DepartureAirlineListView.setAdapter(airlineAdapter);
         return v;
@@ -66,6 +64,10 @@ public class DepartureAirLineFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    public void costomNumber(int number) {
+        this.number = number;
     }
 
     private boolean adCheck(String airline) {

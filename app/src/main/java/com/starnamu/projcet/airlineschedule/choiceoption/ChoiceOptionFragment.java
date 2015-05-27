@@ -3,7 +3,6 @@ package com.starnamu.projcet.airlineschedule.choiceoption;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +33,7 @@ public class ChoiceOptionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         optionAdapter = new OptionAdapter(getActivity());
         StartCurentTime = (int) System.currentTimeMillis();
+        optionAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -42,14 +42,13 @@ public class ChoiceOptionFragment extends Fragment {
         View view = inflater.inflate(R.layout.choiceoption, container, true);
         choiceTime = (ListView) view.findViewById(R.id.choiceTime);
         choiceTime.setAdapter(optionAdapter);
+
         choiceTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 TextView tv = (TextView) view.findViewById(R.id.textView);
                 String str = tv.getText().toString();
-                Log.i("크릭한 view는", str);
-
                 String string = str.replace(" : ", "");
                 int number = Integer.parseInt(string);
                 custonListOnClickListener.onListClicked(number);

@@ -15,32 +15,23 @@ import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 
 import java.util.ArrayList;
 
-
 /**
  * Created by Edwin on 15/02/2015.
  */
 public class ArrivalAirlineFragment extends Fragment implements CommonConventions {
 
     ListView ArrivalAirlineListView;
-    AirLineAdapter airLineAdapter;
+    AirLineAdapter airlineAdapter;
     ArrayList<AirlineItem> Temitems;
     ArrayList<AirlineItem> items;
+    int number = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.arrivalairlinefragment, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         Temitems = new ArrayList<>();
-        airLineAdapter = new AirLineAdapter(getActivity());
-        ArrivalAirlineListView = (ListView) v.findViewById(R.id.ArrivalAirlineListView);
-        ArrivalAirlineListView.setAdapter(airLineAdapter);
-
-        return v;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+        airlineAdapter = new AirLineAdapter(getActivity());
 
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
@@ -54,9 +45,22 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
                     }
                 }
             }
-            airLineAdapter.setItemList(Temitems);
-            airLineAdapter.notifyDataSetChanged();
+            airlineAdapter.setItemList(Temitems);
+            airlineAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.arrivalairlinefragment, container, false);
+        ArrivalAirlineListView = (ListView) v.findViewById(R.id.ArrivalAirlineListView);
+        ArrivalAirlineListView.setAdapter(airlineAdapter);
+        return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -64,6 +68,9 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
         super.onResume();
     }
 
+    public void costomNumber(int number) {
+        this.number = number;
+    }
 
     /*Arraylist의 지료를 원하는 형태로 걸러낸다.*/
     private boolean adCheck(String airline) {

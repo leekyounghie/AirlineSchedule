@@ -2,6 +2,8 @@ package com.starnamu.projcet.airlineschedule;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -13,11 +15,12 @@ import android.view.MenuItem;
 
 import com.starnamu.projcet.airlineschedule.choiceoption.ChoiceOptionFragment;
 import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
+import com.starnamu.projcet.airlineschedule.fragment.ArrivalAirlineFragment;
+import com.starnamu.projcet.airlineschedule.fragment.DepartureAirLineFragment;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 import com.starnamu.projcet.airlineschedule.parser.AirlineParser;
 
 import java.util.ArrayList;
-
 
 /**
  * Created by Edwin on 15/02/2015.
@@ -26,7 +29,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         ChoiceOptionFragment.CustomOnClickListener, ChoiceOptionFragment.CustonListOnClickListener {
 
     // Declaring Your View and Variables
-
     Toolbar toolbar;
     ViewPager pager;
     ViewPagerAdapter adapter;
@@ -35,7 +37,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     int Numboftabs = 2;
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
-
     ArrayList<AirlineItem> items;
 
     @Override
@@ -71,7 +72,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     private void startMetrialView() {
         // Creating The Toolbar and setting it as the Toolbar for the activity
 
-
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
@@ -98,7 +98,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                 return getResources().getColor(R.color.tabsScrollColor);
             }
         });
-
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
     }
@@ -110,7 +109,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         finish();
         android.os.Process.killProcess(android.os.Process.myPid());
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,7 +137,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onClicked() {
         AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
@@ -150,6 +147,24 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     public void onListClicked(int choicetime) {
 //        AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
 //        items = parser.getArrayList();
-        adapter.notifyDataSetChanged();
+
+        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.pager);
+        if (currentFragment instanceof ArrivalAirlineFragment) {
+            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+            ArrivalAirlineFragment fragment = (ArrivalAirlineFragment) currentFragment;
+            fragment.costomNumber(choicetime);
+            fragTransaction.detach(currentFragment);
+            fragTransaction.attach(currentFragment);
+            fragTransaction.commit();
+        }
+
+        if (currentFragment instanceof DepartureAirLineFragment) {
+            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+            DepartureAirLineFragment fragment = (DepartureAirLineFragment) currentFragment;
+            fragment.costomNumber(choicetime);
+            fragTransaction.detach(currentFragment);
+            fragTransaction.attach(currentFragment);
+            fragTransaction.commit();
+        }
     }
 }
