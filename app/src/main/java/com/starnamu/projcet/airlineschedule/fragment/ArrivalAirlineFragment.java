@@ -78,7 +78,6 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
 
     public int currentTime() {
         long time1 = System.currentTimeMillis();
-        Log.i("현재시간", Long.toString(time1));
 
         long time2 = time1 - 7200000L;
         Date date1 = new Date(time1);

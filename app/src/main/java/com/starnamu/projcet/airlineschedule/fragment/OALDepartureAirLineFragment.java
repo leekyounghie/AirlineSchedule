@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.starnamu.projcet.airlineschedule.R;
+import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.parser.AirLineAdapter;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 
@@ -20,15 +21,15 @@ import java.util.Date;
 /**
  * Created by Edwin on 15/02/2015.
  */
-public class DepartureAirLineFragment extends Fragment {
+public class OALDepartureAirLineFragment extends Fragment implements CommonConventions {
 
-    public ListView DepartureAirlineListView;
+    public ListView OalDepartureAirlineListView;
     public AirLineAdapter airlineAdapter;
     ArrayList<AirlineItem> Temitems;
     ArrayList<AirlineItem> items;
-    int SetTime ;
+    int SetTime;
 
-    public DepartureAirLineFragment() {
+    public OALDepartureAirLineFragment() {
         this.SetTime = currentTime();
     }
 
@@ -40,8 +41,8 @@ public class DepartureAirLineFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.departureairlinefragment, container, false);
-        DepartureAirlineListView = (ListView) v.findViewById(R.id.DepartureAirlineListView);
+        View v = inflater.inflate(R.layout.oaldepartureairlinefragment, container, false);
+        OalDepartureAirlineListView = (ListView) v.findViewById(R.id.OalDepartureAirlineListView);
 
         Temitems = new ArrayList<>();
         airlineAdapter = new AirLineAdapter(getActivity());
@@ -62,7 +63,7 @@ public class DepartureAirLineFragment extends Fragment {
                 }
             }
             airlineAdapter.setItemList(Temitems);
-            DepartureAirlineListView.setAdapter(airlineAdapter);
+            OalDepartureAirlineListView.setAdapter(airlineAdapter);
         }
         return v;
     }
@@ -114,14 +115,16 @@ public class DepartureAirLineFragment extends Fragment {
     }
 
     private boolean airlineCheck(String airline) {
-        if (airline.equals("아시아나항공")) {
-            return true;
+        for (int i = 0; i < AIRLINENAME.length; i++) {
+            if (airline.equals(AIRLINENAME[i])) {
+                return true;
+            }
         }
         return false;
     }
 
     private boolean flightCheck(String flight) {
-        if (flight.length() <= 5) {
+        if (flight.length() <= 6) {
             return true;
         }
         return false;

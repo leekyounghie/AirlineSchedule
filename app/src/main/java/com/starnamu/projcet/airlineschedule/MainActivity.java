@@ -3,6 +3,7 @@ package com.starnamu.projcet.airlineschedule;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import com.starnamu.projcet.airlineschedule.choiceoption.ChoiceOptionFragment;
 import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.fragment.ArrivalAirlineFragment;
 import com.starnamu.projcet.airlineschedule.fragment.DepartureAirLineFragment;
+import com.starnamu.projcet.airlineschedule.fragment.OALArrivalAirlineFragment;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 import com.starnamu.projcet.airlineschedule.parser.AirlineParser;
 
@@ -30,8 +32,8 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[] = {"도착편", "출발편"};
-    int Numboftabs = 2;
+    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발"};
+    int Numboftabs = 4;
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
     ArrayList<AirlineItem> items;
@@ -145,21 +147,37 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     @Override
     public void onListClicked(int choicetime) {
 
-        Fragment currentFragment = this.getSupportFragmentManager().findFragmentByTag("arr");
-        FragmentTransaction fragTransaction = this.getSupportFragmentManager().beginTransaction();
-        ArrivalAirlineFragment fragment = (ArrivalAirlineFragment) currentFragment;
-        fragment.costomNumber(choicetime);
-        fragTransaction.detach(currentFragment);
-        fragTransaction.attach(currentFragment);
-        fragTransaction.commit();
+        FragmentManager fm = this.getSupportFragmentManager();
+        FragmentTransaction fragTransaction = fm.beginTransaction();
+        {
+            Fragment currentFragment = fm.findFragmentByTag("arr");
+            ArrivalAirlineFragment fragment = (ArrivalAirlineFragment) currentFragment;
+            fragment.costomNumber(choicetime);
+            fragTransaction.detach(currentFragment);
+            fragTransaction.attach(currentFragment);
 
-        Fragment currentFragment1 = this.getSupportFragmentManager().findFragmentByTag("dep");
-        FragmentTransaction fragTransaction1 = this.getSupportFragmentManager().beginTransaction();
-        DepartureAirLineFragment fragment1 = (DepartureAirLineFragment) currentFragment1;
-        fragment1.costomNumber(choicetime);
-        fragTransaction1.detach(currentFragment1);
-        fragTransaction1.attach(currentFragment1);
-        fragTransaction1.commit();
+            Fragment currentFragment1 = fm.findFragmentByTag("dep");
+            DepartureAirLineFragment fragment1 = (DepartureAirLineFragment) currentFragment1;
+            fragment1.costomNumber(choicetime);
+            fragTransaction.detach(currentFragment1);
+            fragTransaction.attach(currentFragment1);
+            fragTransaction.commit();
+
+//            Fragment currentFragment2 = fm.findFragmentByTag("oalarr");
+//            OALArrivalAirlineFragment fragment2 = (OALArrivalAirlineFragment) currentFragment2;
+//            fragment2.costomNumber(choicetime);
+//            fragTransaction.detach(currentFragment2);
+//            fragTransaction.attach(currentFragment2);
+//            fragTransaction.commit();
+//
+//            Fragment currentFragment3 = fm.findFragmentByTag("oaldep");
+//            FragmentTransaction fragTransaction3 = fm.beginTransaction();
+//            OALDepartureAirLineFragment fragment3 = (OALDepartureAirLineFragment) currentFragment3;
+//            fragment3.costomNumber(choicetime);
+//            fragTransaction3.detach(currentFragment3);
+//            fragTransaction3.attach(currentFragment3);
+//            fragTransaction3.commit();
+        }
     }
 
     //Viewpager에 현재 선택되어 있는 View의 위치를 int값으로 반환한다.

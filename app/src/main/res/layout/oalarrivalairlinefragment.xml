@@ -3,9 +3,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <!-- NOT SO IMPORTANT CUSTOM UI STUFF -->
     <ListView
-        android:id="@+id/DepartureAirlineListView"
+        android:id="@+id/OalArrivalAirlineListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
+
 </RelativeLayout>
