@@ -22,6 +22,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
     ArrayList<AirlineItem> items;
+    FragmentManager fm;
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
@@ -31,6 +32,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
         this.items = items;
+        this.fm = fm;
 
     }
 
@@ -45,11 +47,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         {
             ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment();
             arrivalAirlineFragment.setArguments(bundle);
+            fm.beginTransaction().add(arrivalAirlineFragment, "arr");
             return arrivalAirlineFragment;
         } else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
             DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment();
             departureAirLineFragment.setArguments(bundle);
+            fm.beginTransaction().add(departureAirLineFragment, "dep");
             return departureAirLineFragment;
         }
 

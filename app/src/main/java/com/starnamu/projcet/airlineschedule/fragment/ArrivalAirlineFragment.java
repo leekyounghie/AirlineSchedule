@@ -3,6 +3,7 @@ package com.starnamu.projcet.airlineschedule.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +14,37 @@ import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.parser.AirLineAdapter;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Edwin on 15/02/2015.
  */
 public class ArrivalAirlineFragment extends Fragment implements CommonConventions {
 
-    ListView ArrivalAirlineListView;
-    AirLineAdapter airlineAdapter;
-    ArrayList<AirlineItem> Temitems;
+    public ListView ArrivalAirlineListView;
+    public AirLineAdapter airlineAdapter;
+    ArrayList<AirlineItem> ItemList;
     ArrayList<AirlineItem> items;
-    int number = 0;
+    int SetTime;
+
+    public ArrivalAirlineFragment() {
+        this.SetTime = currentTime();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
-        Temitems = new ArrayList<>();
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.arrivalairlinefragment, container, false);
+        ArrivalAirlineListView = (ListView) v.findViewById(R.id.ArrivalAirlineListView);
+        ItemList = new ArrayList<>();
         airlineAdapter = new AirLineAdapter(getActivity());
+        Log.i("Arr", "Strar");
 
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
@@ -41,20 +54,15 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
             if (adCheck(item.getStriItem(10))) {
                 if (airlineCheck(item.getStriItem(0))) {
                     if (flightCheck(item.getStriItem(3))) {
-                        Temitems.add(item);
+                        if (timeCheck(item.getStriItem(4)) > SetTime) {
+                            ItemList.add(item);
+                        }
                     }
                 }
             }
-            airlineAdapter.setItemList(Temitems);
-            airlineAdapter.notifyDataSetChanged();
+            airlineAdapter.setItemList(ItemList);
+            ArrivalAirlineListView.setAdapter(airlineAdapter);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.arrivalairlinefragment, container, false);
-        ArrivalAirlineListView = (ListView) v.findViewById(R.id.ArrivalAirlineListView);
-        ArrivalAirlineListView.setAdapter(airlineAdapter);
         return v;
     }
 
@@ -68,8 +76,27 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
         super.onResume();
     }
 
+    public int currentTime() {
+        long time1 = System.currentTimeMillis();
+        Log.i("현재시간", Long.toString(time1));
+
+        long time2 = time1 - 7200000L;
+        Date date1 = new Date(time1);
+        SimpleDateFormat CurTimeFormat1 = new SimpleDateFormat("HHmm");
+        String strCurTime1 = CurTimeFormat1.format(date1);
+
+        Date date2 = new Date(time2);
+        SimpleDateFormat CurTimeFormat2 = new SimpleDateFormat("HHmm");
+        String strCurTime2 = CurTimeFormat2.format(date2);
+
+        if (time2 <= 0) {
+            return Integer.parseInt(strCurTime1);
+        }
+        return Integer.parseInt(strCurTime2);
+    }
+
     public void costomNumber(int number) {
-        this.number = number;
+        this.SetTime = number;
     }
 
     /*Arraylist의 지료를 원하는 형태로 걸러낸다.*/
@@ -78,6 +105,11 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
             return true;
         }
         return false;
+    }
+
+    private int timeCheck(String time) {
+        int intTime = Integer.parseInt(time);
+        return intTime;
     }
 
     private boolean airlineCheck(String airline) {

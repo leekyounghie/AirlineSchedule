@@ -1,9 +1,8 @@
 package com.example.starnamu.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 /*
  * File name : IntroActivity.java
@@ -13,6 +12,42 @@ import android.support.v7.app.ActionBarActivity;
  */
 public class MainActivity extends ActionBarActivity {
 
+    String[][] ortimes = new String[25][6];
+    String[] times = new String[150];
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TimeStringArray();
+        TimeIntArray();
+    }
+
+
+    public void TimeStringArray() {
+        for (int i = 0; i < ortimes.length; i++) {
+            for (int j = 0; j < ortimes[i].length; j++) {
+
+                times[i * j] = String.format("%04d", i * 100 + j * 10);
+                Log.i("시간은", times[i * j]);
+            }
+        }
+    }
+
+    public void TimeIntArray() {
+        for (int i = 0; i < ortimes.length; i++) {
+            for (int j = 0; j < ortimes[i].length; j++) {
+                times[i * j] = String.format("%04d", i * 100 + j * 10);
+                int kk = Integer.parseInt(times[i * j]);
+                Log.i("시간은", Integer.toString(kk));
+            }
+        }
+    }
+
+
+
+/*
     // intro 화면에서 사용할 핸들러를 인스턴트를 생성한다.
     Handler handler_intro;
 
@@ -26,11 +61,11 @@ public class MainActivity extends ActionBarActivity {
         handler_intro.postDelayed(run_intro, 2000);
     }
 
-    /*
+    *//*
      *  run_intro : intro 핸들러에서 하는 일을 정의한다.
      *  현재 페이지(IntroActivity)를 종료하면서 다음 페이지(MainActivity)를 실행한다.
      *  복잡하지 않으므로, 내부 선언으로 만족시켰다.
-     */
+     *//*
     Runnable run_intro = new Runnable() {
         public void run() {
             Intent i = new Intent(MainActivity.this, MainActivity.class);
@@ -41,13 +76,13 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    /*
+    *//*
      *  onBackPressed function override
      *   - intro 화면이 나오는 중에는 back 버튼을 사용하지 못하게 한다.
      *   - 핸들러에 의해서 잘못된 결과를 나타낼 수 있다.
-     */
+     *//*
     @Override
     public void onBackPressed() {
 
-    }
+    }*/
 }

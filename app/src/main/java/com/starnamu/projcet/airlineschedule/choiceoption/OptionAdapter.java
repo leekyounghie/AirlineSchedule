@@ -30,7 +30,7 @@ public class OptionAdapter extends BaseAdapter {
     public void addItem() {
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 6; j++) {
-                String str = String.format("%04d", i * 100 + j * 10);
+                String str = stringFormConversion(String.format("%04d", i * 100 + j * 10));
                 items.add(new OptionItemClass(str));
             }
         }
@@ -57,6 +57,7 @@ public class OptionAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.timeoptionstringtextview, parent, false);
         textView = (TextView) view.findViewById(R.id.textView);
+        textView.setText(items.get(position).getOptionItem());
         return view;
     }
 

@@ -22,9 +22,6 @@ import com.starnamu.projcet.airlineschedule.parser.AirlineParser;
 
 import java.util.ArrayList;
 
-/**
- * Created by Edwin on 15/02/2015.
- */
 public class MainActivity extends ActionBarActivity implements CommonConventions,
         ChoiceOptionFragment.CustomOnClickListener, ChoiceOptionFragment.CustonListOnClickListener {
 
@@ -38,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
     ArrayList<AirlineItem> items;
+    OptionFragmentLineLayout optionFragmentLineLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +69,14 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
 
     private void startMetrialView() {
         // Creating The Toolbar and setting it as the Toolbar for the activity
-
+        optionFragmentLineLayout = new OptionFragmentLineLayout(this);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar.addView(optionFragmentLineLayout);
         setSupportActionBar(toolbar);
 
         dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.app_name);
+        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.hello_world);
         dlDrawer.setDrawerListener(dtToggle);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
@@ -112,7 +111,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -128,6 +126,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         super.onConfigurationChanged(newConfig);
         dtToggle.onConfigurationChanged(newConfig);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -145,26 +144,24 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
 
     @Override
     public void onListClicked(int choicetime) {
-//        AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
-//        items = parser.getArrayList();
 
-        Fragment currentFragment = this.getSupportFragmentManager().findFragmentById(R.id.pager);
-        if (currentFragment instanceof ArrivalAirlineFragment) {
-            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-            ArrivalAirlineFragment fragment = (ArrivalAirlineFragment) currentFragment;
-            fragment.costomNumber(choicetime);
-            fragTransaction.detach(currentFragment);
-            fragTransaction.attach(currentFragment);
-            fragTransaction.commit();
-        }
+        Fragment currentFragment = this.getSupportFragmentManager().findFragmentByTag("arr");
+        FragmentTransaction fragTransaction = this.getSupportFragmentManager().beginTransaction();
+        ArrivalAirlineFragment fragment = (ArrivalAirlineFragment) currentFragment;
+        fragment.costomNumber(choicetime);
+        fragTransaction.detach(currentFragment);
+        fragTransaction.attach(currentFragment);
+        fragTransaction.commit();
 
-        if (currentFragment instanceof DepartureAirLineFragment) {
-            FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-            DepartureAirLineFragment fragment = (DepartureAirLineFragment) currentFragment;
-            fragment.costomNumber(choicetime);
-            fragTransaction.detach(currentFragment);
-            fragTransaction.attach(currentFragment);
-            fragTransaction.commit();
-        }
+        Fragment currentFragment1 = this.getSupportFragmentManager().findFragmentByTag("dep");
+        FragmentTransaction fragTransaction1 = this.getSupportFragmentManager().beginTransaction();
+        DepartureAirLineFragment fragment1 = (DepartureAirLineFragment) currentFragment1;
+        fragment1.costomNumber(choicetime);
+        fragTransaction1.detach(currentFragment1);
+        fragTransaction1.attach(currentFragment1);
+        fragTransaction1.commit();
     }
+
+    //Viewpager에 현재 선택되어 있는 View의 위치를 int값으로 반환한다.
+    // if (0 == pager.getCurrentItem()) {
 }
