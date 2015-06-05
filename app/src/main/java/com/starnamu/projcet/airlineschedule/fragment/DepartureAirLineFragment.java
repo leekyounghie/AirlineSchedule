@@ -50,10 +50,8 @@ public class DepartureAirLineFragment extends Fragment implements CommonConventi
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
 
-        if (bundle.getString("setTime") == null) {
+        if (SetTime <= 0) {
             this.SetTime = currentTime();
-        } else {
-            SetTime = Integer.parseInt(bundle.getString("setTime"));
         }
 
         for (int i = 0; i < items.size(); i++) {
@@ -99,6 +97,10 @@ public class DepartureAirLineFragment extends Fragment implements CommonConventi
             return Integer.parseInt(strCurTime1);
         }
         return Integer.parseInt(strCurTime2);
+    }
+
+    public void choiceTime(int choiceTime) {
+        this.SetTime = choiceTime;
     }
 
     /*Arraylist의 지료를 원하는 형태로 걸러낸다.*/

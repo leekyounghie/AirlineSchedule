@@ -3,7 +3,6 @@ package com.starnamu.projcet.airlineschedule.choiceoption;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,6 +57,7 @@ public class ChoiceOptionFragment extends Fragment {
         OptionMenuOpen = (ImageButton) view.findViewById(R.id.OptionMenuOpen);
         OptionMenuOpenLayout.setVisibility(View.INVISIBLE);
         OptionMenuOpen.setOnClickListener(openMenuOnClickListener);
+
         return view;
     }
 
@@ -76,7 +76,7 @@ public class ChoiceOptionFragment extends Fragment {
 //    }
 
     public interface CustonListOnClickListener {
-        void onListClicked();
+        void onListClicked(int choiceTime);
     }
 
     OnItemClickListener onItemClickListener = new OnItemClickListener() {
@@ -88,12 +88,7 @@ public class ChoiceOptionFragment extends Fragment {
             String stringPlace = strText.replace(" : ", "");
             int choiceTime = Integer.parseInt(stringPlace);
 
-            Log.i("SetTime", stringPlace);
-
-            bundle.putInt("stringPlace", choiceTime);
-
-            Log.i("bundle SetTime", Integer.toString(bundle.getInt("stringPlace")));
-            custonListOnClickListener.onListClicked();
+            custonListOnClickListener.onListClicked(choiceTime);
         }
     };
 

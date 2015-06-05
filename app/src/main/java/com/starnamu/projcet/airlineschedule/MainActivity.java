@@ -27,7 +27,6 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity implements CommonConventions,
         ChoiceOptionFragment.CustonListOnClickListener {
 
-    // Declaring Your View and Variables
     Toolbar toolbar;
     ViewPager pager;
     ViewPagerAdapter adapter;
@@ -116,7 +115,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
         dtToggle.onConfigurationChanged(newConfig);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (dtToggle.onOptionsItemSelected(item)) {
@@ -126,7 +124,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     }
 
     @Override
-    public void onListClicked() {
+    public void onListClicked(int choiceTime) {
 
         FragmentManager fm = this.getSupportFragmentManager();
         FragmentTransaction fragTransaction = fm.beginTransaction();
@@ -137,6 +135,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (ArrivalAirlineFragment) fm.findFragmentByTag("arr");
                 fragTransaction.detach(arrivalAirlineFragment);
                 fragTransaction.attach(arrivalAirlineFragment);
+                arrivalAirlineFragment.choiceTime(choiceTime);
                 fragTransaction.commit();
                 break;
 
@@ -145,6 +144,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (DepartureAirLineFragment) fm.findFragmentByTag("dep");
                 fragTransaction.detach(departureAirLineFragment);
                 fragTransaction.attach(departureAirLineFragment);
+                departureAirLineFragment.choiceTime(choiceTime);
                 fragTransaction.commit();
                 break;
 
@@ -153,6 +153,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (OALArrivalAirlineFragment) fm.findFragmentByTag("oalarr");
                 fragTransaction.detach(oalArrivalAirlineFragment);
                 fragTransaction.attach(oalArrivalAirlineFragment);
+                oalArrivalAirlineFragment.choiceTime(choiceTime);
                 fragTransaction.commit();
                 break;
 
@@ -161,9 +162,9 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
                         (OALDepartureAirLineFragment) fm.findFragmentByTag("oaldep");
                 fragTransaction.detach(oalDepartureAirLineFragment);
                 fragTransaction.attach(oalDepartureAirLineFragment);
+                oalDepartureAirLineFragment.choiceTime(choiceTime);
                 fragTransaction.commit();
                 break;
         }
-
     }
 }

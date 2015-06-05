@@ -49,6 +49,9 @@ public class OALArrivalAirlineFragment extends Fragment implements CommonConvent
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
 
+        if (SetTime <= 0) {
+            this.SetTime = currentTime();
+        }
         for (int i = 0; i < items.size(); i++) {
             AirlineItem item = items.get(i);
             if (adCheck(item.getStriItem(10))) {
@@ -94,8 +97,8 @@ public class OALArrivalAirlineFragment extends Fragment implements CommonConvent
         return Integer.parseInt(strCurTime2);
     }
 
-    public void costomNumber(int number) {
-        this.SetTime = number;
+    public void choiceTime(int choiceTime) {
+        this.SetTime = choiceTime;
     }
 
     /*Arraylist의 지료를 원하는 형태로 걸러낸다.*/

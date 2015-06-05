@@ -51,6 +51,10 @@ public class OALDepartureAirLineFragment extends Fragment implements CommonConve
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
 
+        if (SetTime <= 0) {
+            this.SetTime = currentTime();
+        }
+
         for (int i = 0; i < items.size(); i++) {
             AirlineItem item = items.get(i);
             if (adCheck(item.getStriItem(10))) {
@@ -97,10 +101,9 @@ public class OALDepartureAirLineFragment extends Fragment implements CommonConve
         return Integer.parseInt(strCurTime2);
     }
 
-    public void costomNumber(int number) {
-        this.SetTime = number;
+    public void choiceTime(int choiceTime) {
+        this.SetTime = choiceTime;
     }
-
 
     private int timeCheck(String time) {
         int intTime = Integer.parseInt(time);

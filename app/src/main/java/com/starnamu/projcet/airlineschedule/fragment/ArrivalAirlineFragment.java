@@ -25,11 +25,9 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
 
     public ListView ArrivalAirlineListView;
     public AirLineAdapter airlineAdapter;
-
     ArrayList<AirlineItem> ItemList;
-
     ArrayList<AirlineItem> items;
-    int SetTime;
+    int SetTime = 0;
 
     public ArrivalAirlineFragment() {
     }
@@ -50,12 +48,8 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
 
-        int ChoiceTime = bundle.getInt("stringPlace");
-        Log.i("SetTime", Integer.toString(ChoiceTime));
-        if (ChoiceTime <= 0) {
+        if (SetTime <= 0) {
             this.SetTime = currentTime();
-        } else {
-            this.SetTime = ChoiceTime;
         }
 
         for (int i = 0; i < items.size(); i++) {
@@ -101,6 +95,10 @@ public class ArrivalAirlineFragment extends Fragment implements CommonConvention
             return Integer.parseInt(strCurTime1);
         }
         return Integer.parseInt(strCurTime2);
+    }
+
+    public void choiceTime(int choiceTime) {
+        this.SetTime = choiceTime;
     }
 
     /*Arraylist의 지료를 원하는 형태로 걸러낸다.*/
