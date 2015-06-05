@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.starnamu.projcet.airlineschedule"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.starnamu.projcet.airlineschedule"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,10 +19,28 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <!--<service
+            android:name=".awakeprocess.AwakeService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.starnamu.projcet.airlineschedule.awakeprocess.AwakeService"/>
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name=".awakeprocess.AwakeReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.starnamu.projcet.airlineschedule.awakeprocess.ACTION_START"/>
+            </intent-filter>
+        </receiver>-->
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

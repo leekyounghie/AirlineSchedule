@@ -1,9 +1,11 @@
-package com.starnamu.projcet.airlineschedule;
+package com.starnamu.projcet.airlineschedule.choiceoption;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
+
+import com.starnamu.projcet.airlineschedule.R;
 
 /**
  * Created by starnamu on 2015-05-30.

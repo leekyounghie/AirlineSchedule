@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.starnamu.projcet.airlineschedule.fragment.ArrivalAirlineFragment;
@@ -32,7 +33,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
 
         this.Titles = mTitles;
-        this.NumbOfTabs = mNumbOfTabsumb;
+        this.NumbOfTabs = 4;
         this.items = items;
         this.fm = fm;
 
@@ -49,23 +50,32 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             ArrivalAirlineFragment arrivalAirlineFragment = new ArrivalAirlineFragment();
             arrivalAirlineFragment.setArguments(bundle);
             fm.beginTransaction().add(arrivalAirlineFragment, "arr");
+            Log.i("Arr", "Strar");
+
             return arrivalAirlineFragment;
         } else if (position == 1) {            // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
             DepartureAirLineFragment departureAirLineFragment = new DepartureAirLineFragment();
             departureAirLineFragment.setArguments(bundle);
             fm.beginTransaction().add(departureAirLineFragment, "dep");
+            Log.i("dep", "Strar");
+
             return departureAirLineFragment;
         } else if (position == 2) {
             OALArrivalAirlineFragment oalArrivalAirlineFragment = new OALArrivalAirlineFragment();
             oalArrivalAirlineFragment.setArguments(bundle);
             fm.beginTransaction().add(oalArrivalAirlineFragment, "oalarr");
+            Log.i("oalarr", "Strar");
+
             return oalArrivalAirlineFragment;
-        } else {
+        } else if(position ==3){
             OALDepartureAirLineFragment oalDepartureAirLineFragment = new OALDepartureAirLineFragment();
             oalDepartureAirLineFragment.setArguments(bundle);
             fm.beginTransaction().add(oalDepartureAirLineFragment, "oaldep");
+            Log.i("oaldep", "Strar");
+
             return oalDepartureAirLineFragment;
         }
+        return null;
     }
 
     // This method return the titles for the Tabs in the Tab Strip
@@ -82,8 +92,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup
-                                          container, int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
         return super.instantiateItem(container, position);
     }
 

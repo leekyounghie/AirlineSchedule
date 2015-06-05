@@ -61,6 +61,7 @@ public class OptionAdapter extends BaseAdapter {
         return view;
     }
 
+
     private String stringFormConversion(String str) {
         String Hour = str.substring(0, 2);
         String Minute = str.substring(2, 4);

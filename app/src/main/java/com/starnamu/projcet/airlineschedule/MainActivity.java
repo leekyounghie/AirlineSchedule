@@ -2,7 +2,6 @@ package com.starnamu.projcet.airlineschedule;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -15,17 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.starnamu.projcet.airlineschedule.choiceoption.ChoiceOptionFragment;
+import com.starnamu.projcet.airlineschedule.choiceoption.OptionFragmentLineLayout;
 import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.fragment.ArrivalAirlineFragment;
 import com.starnamu.projcet.airlineschedule.fragment.DepartureAirLineFragment;
 import com.starnamu.projcet.airlineschedule.fragment.OALArrivalAirlineFragment;
+import com.starnamu.projcet.airlineschedule.fragment.OALDepartureAirLineFragment;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
-import com.starnamu.projcet.airlineschedule.parser.AirlineParser;
 
 import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity implements CommonConventions,
-        ChoiceOptionFragment.CustomOnClickListener, ChoiceOptionFragment.CustonListOnClickListener {
+        ChoiceOptionFragment.CustonListOnClickListener {
 
     // Declaring Your View and Variables
     Toolbar toolbar;
@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
     CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발"};
-    int Numboftabs = 4;
+    int Numboftabs = Titles.length;
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;
     ArrayList<AirlineItem> items;
@@ -70,36 +70,24 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     }
 
     private void startMetrialView() {
-        // Creating The Toolbar and setting it as the Toolbar for the activity
         optionFragmentLineLayout = new OptionFragmentLineLayout(this);
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.addView(optionFragmentLineLayout);
         setSupportActionBar(toolbar);
-
         dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.hello_world);
         dlDrawer.setDrawerListener(dtToggle);
-
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs, items);
-
-        // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
-
-        // Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setDistributeEvenly(true);
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
                 return getResources().getColor(R.color.tabsScrollColor);
             }
         });
-        // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
     }
 
@@ -119,7 +107,6 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         dtToggle.syncState();
     }
 
@@ -139,47 +126,44 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     }
 
     @Override
-    public void onClicked() {
-        AirlineParser parser = new AirlineParser(PDEPARTURES, PARRIVALS);
-        items = parser.getArrayList();
-    }
-
-    @Override
-    public void onListClicked(int choicetime) {
+    public void onListClicked() {
 
         FragmentManager fm = this.getSupportFragmentManager();
         FragmentTransaction fragTransaction = fm.beginTransaction();
-        {
-            Fragment currentFragment = fm.findFragmentByTag("arr");
-            ArrivalAirlineFragment fragment = (ArrivalAirlineFragment) currentFragment;
-            fragment.costomNumber(choicetime);
-            fragTransaction.detach(currentFragment);
-            fragTransaction.attach(currentFragment);
+        int i = pager.getCurrentItem();/*현재 선택된 Pager 위치값 반환*/
+        switch (i) {
+            case 0:
+                ArrivalAirlineFragment arrivalAirlineFragment =
+                        (ArrivalAirlineFragment) fm.findFragmentByTag("arr");
+                fragTransaction.detach(arrivalAirlineFragment);
+                fragTransaction.attach(arrivalAirlineFragment);
+                fragTransaction.commit();
+                break;
 
-            Fragment currentFragment1 = fm.findFragmentByTag("dep");
-            DepartureAirLineFragment fragment1 = (DepartureAirLineFragment) currentFragment1;
-            fragment1.costomNumber(choicetime);
-            fragTransaction.detach(currentFragment1);
-            fragTransaction.attach(currentFragment1);
-            fragTransaction.commit();
+            case 1:
+                DepartureAirLineFragment departureAirLineFragment =
+                        (DepartureAirLineFragment) fm.findFragmentByTag("dep");
+                fragTransaction.detach(departureAirLineFragment);
+                fragTransaction.attach(departureAirLineFragment);
+                fragTransaction.commit();
+                break;
 
-//            Fragment currentFragment2 = fm.findFragmentByTag("oalarr");
-//            OALArrivalAirlineFragment fragment2 = (OALArrivalAirlineFragment) currentFragment2;
-//            fragment2.costomNumber(choicetime);
-//            fragTransaction.detach(currentFragment2);
-//            fragTransaction.attach(currentFragment2);
-//            fragTransaction.commit();
-//
-//            Fragment currentFragment3 = fm.findFragmentByTag("oaldep");
-//            FragmentTransaction fragTransaction3 = fm.beginTransaction();
-//            OALDepartureAirLineFragment fragment3 = (OALDepartureAirLineFragment) currentFragment3;
-//            fragment3.costomNumber(choicetime);
-//            fragTransaction3.detach(currentFragment3);
-//            fragTransaction3.attach(currentFragment3);
-//            fragTransaction3.commit();
+            case 2:
+                OALArrivalAirlineFragment oalArrivalAirlineFragment =
+                        (OALArrivalAirlineFragment) fm.findFragmentByTag("oalarr");
+                fragTransaction.detach(oalArrivalAirlineFragment);
+                fragTransaction.attach(oalArrivalAirlineFragment);
+                fragTransaction.commit();
+                break;
+
+            case 3:
+                OALDepartureAirLineFragment oalDepartureAirLineFragment =
+                        (OALDepartureAirLineFragment) fm.findFragmentByTag("oaldep");
+                fragTransaction.detach(oalDepartureAirLineFragment);
+                fragTransaction.attach(oalDepartureAirLineFragment);
+                fragTransaction.commit();
+                break;
         }
-    }
 
-    //Viewpager에 현재 선택되어 있는 View의 위치를 int값으로 반환한다.
-    // if (0 == pager.getCurrentItem()) {
+    }
 }

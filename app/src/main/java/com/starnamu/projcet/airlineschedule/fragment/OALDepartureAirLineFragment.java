@@ -46,7 +46,7 @@ public class OALDepartureAirLineFragment extends Fragment implements CommonConve
 
         Temitems = new ArrayList<>();
         airlineAdapter = new AirLineAdapter(getActivity());
-        Log.i("Dep", "Strar");
+        Log.i("OalDep", "Strar");
 
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");

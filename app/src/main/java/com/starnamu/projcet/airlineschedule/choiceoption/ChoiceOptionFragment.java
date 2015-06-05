@@ -3,6 +3,7 @@ package com.starnamu.projcet.airlineschedule.choiceoption;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.starnamu.projcet.airlineschedule.R;
 
@@ -25,17 +25,15 @@ import com.starnamu.projcet.airlineschedule.R;
 public class ChoiceOptionFragment extends Fragment {
 
     ListView choiceTime;
-    ImageButton reStart;
     ImageButton OptionMenuOpen;
     int StartCurentTime;
-    int NowCurentTime;
     OptionAdapter optionAdapter;
     boolean isMenuOpen = true;
     Animation translateLeftAnim;
     Animation translateRightAnim;
     LinearLayout OptionMenuOpenLayout;
+    Bundle bundle;
 
-    public static int TimeDifference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,36 +55,45 @@ public class ChoiceOptionFragment extends Fragment {
         choiceTime.setAdapter(optionAdapter);
         choiceTime.setOnItemClickListener(onItemClickListener);
 
-        reStart = (ImageButton) view.findViewById(R.id.reExecution);
-        reStart.setOnClickListener(resercheOnClickListener);
-
         OptionMenuOpen = (ImageButton) view.findViewById(R.id.OptionMenuOpen);
         OptionMenuOpenLayout.setVisibility(View.INVISIBLE);
         OptionMenuOpen.setOnClickListener(openMenuOnClickListener);
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
     // Activity 로 데이터를 전달할 커스텀 리스너
-    private CustomOnClickListener customListener;
+//    private CustomOnClickListener customListener;
     private CustonListOnClickListener custonListOnClickListener;
 
     // Activity 로 데이터를 전달할 커스텀 리스너의 인터페이스
-    public interface CustomOnClickListener {
-        public void onClicked();
-    }
+//    public interface CustomOnClickListener {
+//        void onClicked();
+//    }
 
     public interface CustonListOnClickListener {
-        public void onListClicked(int number);
+        void onListClicked();
     }
 
     OnItemClickListener onItemClickListener = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            bundle = new Bundle();
             TextView tv = (TextView) view.findViewById(R.id.textView);
-            String str = tv.getText().toString();
-            String string = str.replace(" : ", "");
-            int number = Integer.parseInt(string);
-            custonListOnClickListener.onListClicked(number);
+            String strText = tv.getText().toString();
+            String stringPlace = strText.replace(" : ", "");
+            int choiceTime = Integer.parseInt(stringPlace);
+
+            Log.i("SetTime", stringPlace);
+
+            bundle.putInt("stringPlace", choiceTime);
+
+            Log.i("bundle SetTime", Integer.toString(bundle.getInt("stringPlace")));
+            custonListOnClickListener.onListClicked();
         }
     };
 
@@ -99,12 +106,12 @@ public class ChoiceOptionFragment extends Fragment {
                 isMenuOpen = false;
             } else {
                 OptionMenuOpenLayout.startAnimation(translateRightAnim);
-                OptionMenuOpenLayout.setVisibility(View.INVISIBLE);
+                OptionMenuOpenLayout.setVisibility(View.GONE);
                 isMenuOpen = true;
             }
         }
     };
-
+/*
     // 버튼에 설정한 OnClickListener의 구현, 버튼이 클릭 될 때마다 Activity의 커스텀 리스너를 호출함
     OnClickListener resercheOnClickListener = new OnClickListener() {
         @Override
@@ -119,13 +126,13 @@ public class ChoiceOptionFragment extends Fragment {
                 Toast.makeText(getActivity(), (TimeDifferenceStr) + "초후 다시 누르세요", Toast.LENGTH_SHORT).show();
             }
         }
-    };
+    };*/
 
     // Activity 로 데이터를 전달할 커스텀 리스너를 연결
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        customListener = (CustomOnClickListener) activity;
+//        customListener = (CustomOnClickListener) activity;
         custonListOnClickListener = (CustonListOnClickListener) activity;
     }
 }

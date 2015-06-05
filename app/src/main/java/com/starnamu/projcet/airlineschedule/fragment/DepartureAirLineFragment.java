@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.starnamu.projcet.airlineschedule.R;
+import com.starnamu.projcet.airlineschedule.comm.CommonConventions;
 import com.starnamu.projcet.airlineschedule.parser.AirLineAdapter;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
 
@@ -20,35 +21,40 @@ import java.util.Date;
 /**
  * Created by Edwin on 15/02/2015.
  */
-public class DepartureAirLineFragment extends Fragment {
+public class DepartureAirLineFragment extends Fragment implements CommonConventions {
 
     public ListView DepartureAirlineListView;
     public AirLineAdapter airlineAdapter;
-    ArrayList<AirlineItem> Temitems;
+    /*Temitems는 원하는 데이터로 ArrayList로 가공한 ArrayList */
+    ArrayList<AirlineItem> ItemList;
+    /*items는 모든 항공사 정보가 들어있는 원본 ArrayList`*/
     ArrayList<AirlineItem> items;
-    int SetTime ;
+    int SetTime;
 
     public DepartureAirLineFragment() {
-        this.SetTime = currentTime();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.departureairlinefragment, container, false);
         DepartureAirlineListView = (ListView) v.findViewById(R.id.DepartureAirlineListView);
-
-        Temitems = new ArrayList<>();
+        ItemList = new ArrayList<>();
         airlineAdapter = new AirLineAdapter(getActivity());
         Log.i("Dep", "Strar");
 
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");
+
+        if (bundle.getString("setTime") == null) {
+            this.SetTime = currentTime();
+        } else {
+            SetTime = Integer.parseInt(bundle.getString("setTime"));
+        }
 
         for (int i = 0; i < items.size(); i++) {
             AirlineItem item = items.get(i);
@@ -56,12 +62,12 @@ public class DepartureAirLineFragment extends Fragment {
                 if (airlineCheck(item.getStriItem(0))) {
                     if (flightCheck(item.getStriItem(3))) {
                         if (timeCheck(item.getStriItem(4)) > SetTime) {
-                            Temitems.add(item);
+                            ItemList.add(item);
                         }
                     }
                 }
             }
-            airlineAdapter.setItemList(Temitems);
+            airlineAdapter.setItemList(ItemList);
             DepartureAirlineListView.setAdapter(airlineAdapter);
         }
         return v;
@@ -79,7 +85,6 @@ public class DepartureAirLineFragment extends Fragment {
 
     public int currentTime() {
         long time1 = System.currentTimeMillis();
-        Log.i("현재시간", Long.toString(time1));
 
         long time2 = time1 - 7200000L;
         Date date1 = new Date(time1);
@@ -96,21 +101,17 @@ public class DepartureAirLineFragment extends Fragment {
         return Integer.parseInt(strCurTime2);
     }
 
-    public void costomNumber(int number) {
-        this.SetTime = number;
-    }
-
-
-    private int timeCheck(String time) {
-        int intTime = Integer.parseInt(time);
-        return intTime;
-    }
-
+    /*Arraylist의 지료를 원하는 형태로 걸러낸다.*/
     private boolean adCheck(String airline) {
         if (airline.equals("D")) {
             return true;
         }
         return false;
+    }
+
+    private int timeCheck(String time) {
+        int intTime = Integer.parseInt(time);
+        return intTime;
     }
 
     private boolean airlineCheck(String airline) {

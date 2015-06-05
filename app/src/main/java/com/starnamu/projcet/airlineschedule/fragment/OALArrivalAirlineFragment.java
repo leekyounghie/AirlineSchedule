@@ -44,7 +44,7 @@ public class OALArrivalAirlineFragment extends Fragment implements CommonConvent
         OalArrivalAirlineListView = (ListView) v.findViewById(R.id.OalArrivalAirlineListView);
         ItemList = new ArrayList<>();
         airlineAdapter = new AirLineAdapter(getActivity());
-        Log.i("Arr", "Strar");
+        Log.i("OalArr", "Strar");
 
         Bundle bundle = getArguments();
         items = (ArrayList<AirlineItem>) bundle.getSerializable("items");

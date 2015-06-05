@@ -40,6 +40,9 @@ public class Intro_Activity extends ActionBarActivity implements CommonConventio
             parser = new AirlineParser(PDEPARTURES, PARRIVALS);
             items = parser.getArrayList();
 
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("airlinetime",items);
+
             Intent intent = new Intent(Intro_Activity.this, MainActivity.class);
             startActivity(intent);
             finish();
