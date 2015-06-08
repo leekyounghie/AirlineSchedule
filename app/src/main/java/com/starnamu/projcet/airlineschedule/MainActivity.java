@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity implements CommonConventions
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발"};
+    CharSequence Titles[] = {"도착편", "출발편", "OAL 도착", "OAL 출발", "지도"};
     int Numboftabs = Titles.length;
     DrawerLayout dlDrawer;
     ActionBarDrawerToggle dtToggle;

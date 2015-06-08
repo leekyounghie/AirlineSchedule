@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.starnamu.projcet.airlineschedule.fragment.ArrivalAirlineFragment;
 import com.starnamu.projcet.airlineschedule.fragment.DepartureAirLineFragment;
+import com.starnamu.projcet.airlineschedule.fragment.GoogleMapFragment;
 import com.starnamu.projcet.airlineschedule.fragment.OALArrivalAirlineFragment;
 import com.starnamu.projcet.airlineschedule.fragment.OALDepartureAirLineFragment;
 import com.starnamu.projcet.airlineschedule.parser.AirlineItem;
@@ -33,7 +34,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
 
         this.Titles = mTitles;
-        this.NumbOfTabs = 4;
+        this.NumbOfTabs = mTitles.length;
         this.items = items;
         this.fm = fm;
 
@@ -67,13 +68,19 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             Log.i("oalarr", "Strar");
 
             return oalArrivalAirlineFragment;
-        } else if(position ==3){
+        } else if (position == 3) {
             OALDepartureAirLineFragment oalDepartureAirLineFragment = new OALDepartureAirLineFragment();
             oalDepartureAirLineFragment.setArguments(bundle);
             fm.beginTransaction().add(oalDepartureAirLineFragment, "oaldep");
             Log.i("oaldep", "Strar");
 
             return oalDepartureAirLineFragment;
+        } else if (position == 4) {
+            GoogleMapFragment googleMapFragment = new GoogleMapFragment();
+            googleMapFragment.setArguments(bundle);
+            fm.beginTransaction().add(googleMapFragment, "goolmf");
+
+            return googleMapFragment;
         }
         return null;
     }
